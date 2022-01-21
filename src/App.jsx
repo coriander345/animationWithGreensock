@@ -12,18 +12,33 @@ function App() {
 
   const [state, setState] = useState(false);
 
-  const handleExpand = () => {
-    TweenMax.to(circleRed, 0.8, {
-      width: 200,
-      height: 200,
+  const handleExpand = (src) => {
+    TweenMax.to(src, 0.8, {
+      width: 1200,
+      height: 1000,
+      borderRadius: 0,
       ease: Power3.easeOut,
     });
+
+    const arr = [circle, circleRed, circleBlue];
+
+    for (let el of arr) {
+      if (src !== el) {
+        TweenMax.to(el, 0.8, {
+          width: 100,
+          height: 100,
+          borderRadius: 100,
+          ease: Power3.easeOut,
+        });
+      }
+    }
     setState(true);
   };
-  const handleShirnk = () => {
-    TweenMax.to(circleRed, 0.8, {
-      width: 75,
-      height: 75,
+  const handleShirnk = (src) => {
+    TweenMax.to(src, 0.8, {
+      width: 100,
+      height: 100,
+      borderRadius: 100,
       ease: Power3.easeOut,
     });
     setState(false);
@@ -60,13 +75,39 @@ function App() {
     <div className='App' ref={(el) => (app = el)}>
       <header className='App-header'>
         <div className='circle-container'>
-          <div className='circle' ref={(el) => (circle = el)}></div>
           <div
-            onClick={state !== true ? handleExpand : handleShirnk}
+            onClick={
+              state !== true
+                ? () => handleExpand(circle)
+                : () => handleShirnk(circle)
+            }
+            className='circle'
+            ref={(el) => (circle = el)}
+          >
+            <p>A</p>
+          </div>
+          <div
+            onClick={
+              state !== true
+                ? () => handleExpand(circleRed)
+                : () => handleShirnk(circleRed)
+            }
             ref={(el) => (circleRed = el)}
             className='circle red'
-          ></div>
-          <div ref={(el) => (circleBlue = el)} className='circle blue'></div>
+          >
+            <p>S</p>
+          </div>
+          <div
+            onClick={
+              state !== true
+                ? () => handleExpand(circleBlue)
+                : () => handleShirnk(circleBlue)
+            }
+            ref={(el) => (circleBlue = el)}
+            className='circle blue'
+          >
+            <p>R</p>
+          </div>
         </div>
       </header>
     </div>
